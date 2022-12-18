@@ -8,11 +8,11 @@ const otherItemsPercent = document.querySelectorAll('.other-items.percent')
 const otherItemsNumber = document.querySelectorAll('.other-items.number')
 const inputRollback = document.querySelector('.rollback > .main-controls__range > input')
 const spanRollback = document.querySelector('.rollback > .main-controls__range > span')
-const screenPrice = document.getElementsByClassName('total-input')[0]
-const screenCount = document.getElementsByClassName('total-input')[1]
-const servicePrices = document.getElementsByClassName('total-input')[2]
-const fullPrice = document.getElementsByClassName('total-input')[3]
-const totalPrice = document.getElementsByClassName('total-input')[4]
+const total = document.getElementsByClassName('total-input')[0]
+const totalCount = document.getElementsByClassName('total-input')[1]
+const totalCountOther = document.getElementsByClassName('total-input')[2]
+const fullTotalCount = document.getElementsByClassName('total-input')[3]
+const totalCountRollback = document.getElementsByClassName('total-input')[4]
 let screen = document.querySelectorAll('.screen')
 
 
@@ -46,6 +46,12 @@ const appData = {
 
         // appData.logger()
         console.log(appData)
+        appData.showResult()
+    },
+    showResult: function () {
+        total.value = appData.screenPrice
+        totalCountOther.value = appData.servicePercentPrice + appData.servicePricesNumber
+        fullTotalCount.value = appData.fullPrice
     },
     addScreens: function () {
         screen = document.querySelectorAll('.screen')
@@ -119,7 +125,6 @@ const appData = {
             return "Что-то пошло не так"
         }
     },
-
     logger: function () {
         console.log(appData.fullPrice);
         console.log(appData.servicePercentPrice);
