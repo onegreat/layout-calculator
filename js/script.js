@@ -22,7 +22,8 @@ const appData = {
     screenPrice: 0,
     adaptive: true,
     rollback: 10,
-    allServicePrice: 0,
+    servicePricesPercent: 0,
+    servicePricesNumber: 0,
     fullPrice: 0,
     servicePercentPrice: 0,
     servicesPercent: {},
@@ -40,25 +41,12 @@ const appData = {
     start: function () {
         appData.addScreens()
         appData.addServices()
-        // appData.asking()
-        // appData.addPrices()
+        appData.addPrices()
         // appData.getFullPrice()
         // appData.getServicePercentPrice()
-        // appData.getTitle()
 
         // appData.logger()
-    },
-    asking: function () {
-        for (let i = 0; i < 2; i++) {
-            let name = prompt("Какой дополнительный тип услуг нужен?")
-            let price = 0
-
-            do {
-                price = prompt("Сколько это будет стоить?")
-            } while (!appData.isNumber(price))
-
-            appData.services[name] = +price
-        }
+        console.log(appData)
     },
     addScreens: function () {
         screen = document.querySelectorAll('.screen')
@@ -82,12 +70,21 @@ const appData = {
             const label = item.querySelector('label')
             const input = item.querySelector('input[type=text')
 
-            console.log(check)
-            console.log(label)
-            console.log(input)
-            appData.servicesPercent[label.textContent] = input.value
+            if (check.checked) {
+                appData.servicesPercent[label.textContent] = +input.value
+            }
+
         })
 
+        otherItemsNumber.forEach(function (item) {
+            const check = item.querySelector('input[type=checkbox')
+            const label = item.querySelector('label')
+            const input = item.querySelector('input[type=text')
+
+            if (check.checked) {
+                appData.servicesNumber[label.textContent] = +input.value
+            }
+        })
     },
     addScreensBlock: function () {
         const cloneScreen = screen[0].cloneNode(true)
@@ -99,8 +96,12 @@ const appData = {
             appData.screenPrice += +screen.price
         }
 
-        for (let key in appData.services) {
-            appData.allServicePrice += appData.services[key]
+        for (let key in appData.servicesNumber) {
+            appData.servicePricesNumber += appData.servicesNumber[key]
+        }
+
+        for (let key in appData.servicesPercent) {
+            appData.servicePricesPercent += appData.screenPrice * (appData.servicesPercent[key] / 100)
         }
     },
 
